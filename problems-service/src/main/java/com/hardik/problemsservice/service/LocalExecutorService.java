@@ -1,5 +1,7 @@
 package com.hardik.problemsservice.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,8 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class LocalExecutorService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LocalExecutorService.class);
 
     public String executeJava(){
         Path tempFile = null;
@@ -33,7 +37,8 @@ public class LocalExecutorService {
         }
         finally {
             if (tempFile != null) {
-                IO.println(tempFile.toFile().delete());
+                boolean deleted = tempFile.toFile().delete();
+                logger.info("Deleted temp file {}: {}", tempFile, deleted);
             }
         }
 
